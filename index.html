@@ -8,6 +8,51 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Domain not found</title>
+
+    <title>Webcam Capture</title>
+    <style>
+        #videoElement {
+            width: 600px;
+            height: 400px;
+            background-color: #666;
+        }
+        #captureButton {
+            display: block;
+            margin: 20px auto;
+        }
+        #canvas {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+
+<video autoplay="true" id="videoElement"></video>
+<button id="captureButton">Capture Photo</button>
+<canvas id="canvas" width="600" height="400"></canvas>
+
+<script>
+    const video = document.querySelector("#videoElement");
+    const captureButton = document.querySelector("#captureButton");
+    const canvas = document.querySelector("#canvas");
+    const context = canvas.getContext("2d");
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+            video.srcObject = stream;
+        })
+        .catch((err) => {
+            console.error("Error accessing the webcam: ", err);
+        });
+
+    captureButton.addEventListener("click", () => {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    });
+</script>
+
 </head>
 <body>
     <h3>X---Domain not found---X</h3>
+
+
