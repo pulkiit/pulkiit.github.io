@@ -1,58 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <script src="https://cdn.counter.dev/script.js" data-id="ffa4a0c1-9f19-4c37-9973-61aa87bf5e42" data-utcoffset="4"></script>
-  <script async data-id="101455327" src="//static.getclicky.com/js"></script>
-
-  <script data-goatcounter="https://p9s5b8s.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-  <link rel="icon" type="image/png" href="/favicon.png"/>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Domain not found</title>
-
-    <title>Webcam Capture</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Information</title>
     <style>
-        #videoElement {
-            width: 600px;
-            height: 400px;
-            background-color: #666;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
-        #captureButton {
-            display: block;
-            margin: 20px auto;
+        table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        #canvas {
-            display: block;
-            margin: 20px auto;
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
         }
     </style>
 </head>
 <body>
 
-<video autoplay="true" id="videoElement"></video>
-<button id="captureButton">Capture Photo</button>
-<canvas id="canvas" width="600" height="400"></canvas>
+<h1>Device Information</h1>
+<table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td>Browser</td><td id="browser"></td></tr>
+    <tr><td>Operating System</td><td id="os"></td></tr>
+    <tr><td>Screen Resolution</td><td id="screenResolution"></td></tr>
+    <tr><td>Window Size</td><td id="windowSize"></td></tr>
+    <tr><td>Language</td><td id="language"></td></tr>
+    <tr><td>Platform</td><td id="platform"></td></tr>
+    <tr><td>User Agent</td><td id="userAgent"></td></tr>
+    <tr><td>Timezone</td><td id="timezone"></td></tr>
+    <tr><td>Current Device Time</td><td id="deviceTime"></td></tr>
+</table>
 
 <script>
-    const video = document.querySelector("#videoElement");
-    const captureButton = document.querySelector("#captureButton");
-    const canvas = document.querySelector("#canvas");
-    const context = canvas.getContext("2d");
+    document.getElementById('browser').innerText = getBrowserInfo();
+    document.getElementById('os').innerText = getOSInfo();
+    document.getElementById('screenResolution').innerText = `${window.screen.width} x ${window.screen.height}`;
+    document.getElementById('windowSize').innerText = `${window.innerWidth} x ${window.innerHeight}`;
+    document.getElementById('language').innerText = navigator.language;
+    document.getElementById('platform').innerText = navigator.platform;
+    document.getElementById('userAgent').innerText = navigator.userAgent;
+    document.getElementById('timezone').innerText = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.getElementById('deviceTime').innerText = new Date().toLocaleString();
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-            video.srcObject = stream;
-        })
-        .catch((err) => {
-            console.error("Error accessing the webcam: ", err);
-        });
+    function getBrowserInfo() {
+        const userAgent = navigator.userAgent;
+        let browser = "Unknown";
+        
+        if (userAgent.includes("Firefox")) {
+            browser = "Firefox";
+        } else if (userAgent.includes("Opera") || userAgent.includes("OPR")) {
+            browser = "Opera";
+        } else if (userAgent.includes("Chrome")) {
+            browser = "Chrome";
+        } else if (userAgent.includes("Safari")) {
+            browser = "Safari";
+        } else if (userAgent.includes("MSIE") || userAgent.includes("Trident")) {
+            browser = "Internet Explorer";
+        }
+        
+        return browser;
+    }
 
-    captureButton.addEventListener("click", () => {
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    });
+    function getOSInfo() {
+        const platform = navigator.platform;
+        let os = "Unknown";
+
+        if (platform.includes("Win")) {
+            os = "Windows";
+        } else if (platform.includes("Mac")) {
+            os = "MacOS";
+        } else if (platform.includes("Linux")) {
+            os = "Linux";
+        } else if (platform.includes("Android")) {
+            os = "Android";
+        } else if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            os = "iOS";
+        }
+        
+        return os;
+    }
 </script>
 
-</head>
-<body>
-    <h3>X---Domain not found---X</h3>
-
+</body>
+</html>
 
